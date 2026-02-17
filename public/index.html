@@ -1,0 +1,559 @@
+<!-- index.html (FULL) -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tapio-cha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- WELCOME -->
+        <section class="screen centered active" id="welcome-screen">
+            <div class="card">
+                <img src="assets/logo.png" class="logo tilt-on-load" alt="tapio-cha logo" />
+
+                <p class="subtitle">
+                    Fresh boba, made just for you.<br />
+                    Takes less than a minute.
+                </p>
+
+                <label for="user-name">Your name</label>
+                <input id="user-name" name="user-name" required />
+
+      <label for="phone-number">Phone number</label>
+      <input id="phone-number" name="phone-number" type="tel" inputmode="numeric" minlength="10" />
+      <p class="helper-text phone-note">Used only for order updates. No spam.</p>
+
+                <button class="primary-btn" onclick="startOrdering()">
+                    Start Ordering
+                </button>
+
+                <p class="helper-text">Takes ~30 seconds · Ready in 3–5 minutes</p>
+            </div>
+        </section>
+        <!-- PATH CHOICE -->
+        <section class="screen centered" id="path-screen">
+            <div class="card path-card">
+                <h1 id="welcome-user" class="path-title"></h1>
+                <p class="path-helper">No pressure — you can always change later</p>
+
+                <div class="path-stack">
+                    <button class="choice-btn breathe" onclick="goToVibe()">
+                        Help me choose
+                        <span class="ai-icon">✦</span>
+                    </button>
+                    <p class="micro-text">AI-based recommendations</p>
+
+                    <button class="choice-btn" onclick="goToCategory()">
+                        I’ll choose myself
+                    </button>
+                    <p class="micro-text">Browse the full menu</p>
+                </div>
+
+
+
+                <div class="bottom-actions">
+                    <button class="back-btn" onclick="goBack()">← Back</button>
+                    <button class="clear-btn" onclick="resetOrder()">Clear</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIBE -->
+        <section class="screen centered" id="vibe-screen">
+            <div class="card">
+                <h1 id="vibe-user"></h1>
+                <p class="subtitle">Pick what matches your mood</p>
+
+                <div class="choice-list">
+                    <button class="choice-btn vibe-btn" onclick="selectVibe('chill')">Feeling Chill</button>
+                    <button class="choice-btn vibe-btn" onclick="selectVibe('fresh')">Feeling Fresh</button>
+                    <button class="choice-btn vibe-btn" onclick="selectVibe('sweet')">Sweet Craving</button>
+                    <button class="choice-btn vibe-btn" onclick="selectVibe('energy')">Need a Pick-Me-Up</button>
+                    <button class="choice-btn vibe-btn" onclick="selectVibe('fun')">Feeling Fun</button>
+                </div>
+
+                <!-- "I'll describe it" toggle -->
+                <button class="choice-btn describe-toggle" onclick="toggleDescribe()">
+                    I’ll describe it
+                </button>
+
+                <!-- Optional describe input (hidden until toggle) -->
+                <div class="describe-wrap" id="describe-wrap" aria-hidden="true">
+                    <div class="mood-input-wrap">
+                        <input id="mood-text" type="text" placeholder="Tell us how you feel (optional)" />
+                        <button class="mood-inline-btn" onclick="applyMoodText()" title="Submit mood text">→</button>
+                    </div>
+                    <p class="micro-hint">Tip: “sleepy”, “hot & tired”, “need something sweet”</p>
+                </div>
+
+                <!-- Bottom actions -->
+                <div class="bottom-actions">
+                    <button class="back-btn" onclick="goBack()">← Back</button>
+                    <button class="clear-btn" onclick="clearVibe()">Clear</button>
+                </div>
+            </div>
+        </section>
+  <section class="screen centered" id="recommendation-screen">
+    <div class="card scroll">
+      <div class="rec-hero">
+        <p class="rec-kicker">Picked for you</p>
+        <h1 class="rec-hero-title">We think you’ll love these</h1>
+        <p class="rec-explainer" id="rec-explainer"></p>
+        <p class="helper-text prep-note">Takes ~30 seconds to order · Ready in 3–5 minutes</p>
+      </div>
+
+<!-- SIP -->
+<h3 class="section-title section-divider">
+  <span class="label-dot sip-dot"></span>
+  Sip
+</h3>
+<div class="rec-viewport">
+  <div class="rec-swipe" id="rec-swipe-sip">
+
+    <div class="rec-card">
+      <div class="rec-image">
+        <img src="assets/placeholder.png" alt="Strawberry Milk Tea">
+      </div>
+      <div class="rec-meta">
+        <h3>Strawberry Milk Tea</h3>
+        <p>Light · Fruity · Crowd favourite</p>
+        <button class="rec-primary-btn" onclick="openItem('Strawberry Milk Tea','boba','assets/placeholder.png')">Customize &amp; Add</button>
+        <div class="rec-why">
+          <button class="why-toggle" onclick="toggleWhyPanel(this)" aria-label="Why this">
+            ⓘ
+          </button>
+          <p class="why-text">
+            You chose a fresh vibe, so we started with something light,
+            fruity, and refreshing—easy to sip and not heavy.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-image">
+        <img src="assets/placeholder.png" alt="Matcha Milk Tea">
+      </div>
+      <div class="rec-meta">
+        <h3>Matcha Milk Tea</h3>
+        <p>Earthy · Balanced · Not too sweet</p>
+        <button class="rec-primary-btn" onclick="openItem('Matcha Milk Tea','boba','assets/placeholder.png')">Customize &amp; Add</button>
+        <div class="rec-why">
+          <button class="why-toggle" onclick="toggleWhyPanel(this)" aria-label="Why this">
+            ⓘ
+          </button>
+          <p class="why-text">
+            Matcha works well when you want something calm and smooth,
+            without too much sweetness.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-image">
+        <img src="assets/placeholder.png" alt="Brown Sugar Milk Tea">
+      </div>
+      <div class="rec-meta">
+        <h3>Brown Sugar Milk Tea</h3>
+        <p>Rich · Creamy · Bestseller</p>
+        <button class="rec-primary-btn" onclick="openItem('Brown Sugar Milk Tea','boba','assets/placeholder.png')">Customize &amp; Add</button>
+        <div class="rec-why">
+          <button class="why-toggle" onclick="toggleWhyPanel(this)" aria-label="Why this">
+            ⓘ
+          </button>
+          <p class="why-text">
+            We added a richer option in case you’re in the mood to
+            treat yourself after something lighter.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="rec-dots" data-track="sip">
+  <span class="dot active"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+</div>
+
+<div class="rec-divider"></div>
+
+<!-- EAT -->
+<h3 class="section-title section-divider" id="eat-section">
+  <span class="label-dot eat-dot"></span>
+  Eat
+</h3>
+
+<div class="rec-viewport">
+  <div class="rec-swipe" id="rec-swipe-eat">
+
+    <div class="rec-card">
+      <div class="rec-image">
+        <img src="assets/placeholder.png" alt="Bubble Waffle">
+      </div>
+      <div class="rec-meta">
+        <h3>Bubble Waffle</h3>
+        <p>Warm · Crispy · Best with boba</p>
+        <button class="rec-primary-btn" onclick="openItem('Bubble Waffle','simple','assets/placeholder.png')">Customize &amp; add</button>
+        <div class="rec-why">
+          <button class="why-toggle" onclick="toggleWhyPanel(this)" aria-label="Why this">
+            ⓘ
+          </button>
+          <p class="why-text">
+            A warm, crispy waffle balances cold drinks perfectly
+            and makes the combo more filling.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-image">
+        <img src="assets/placeholder.png" alt="Taiyaki">
+      </div>
+      <div class="rec-meta">
+        <h3>Taiyaki</h3>
+        <p>Soft · Sweet · Light dessert</p>
+        <button class="rec-primary-btn" onclick="openItem('Taiyaki','taiyaki','assets/placeholder.png')">Customize &amp; add</button>
+        <div class="rec-why">
+          <button class="why-toggle" onclick="toggleWhyPanel(this)" aria-label="Why this">
+            ⓘ
+          </button>
+          <p class="why-text">
+            Taiyaki is lighter than a waffle and works well if you
+            want just a small sweet bite.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="rec-dots" data-track="eat">
+  <span class="dot active"></span>
+  <span class="dot"></span>
+</div>
+
+<div class="bottom-actions">
+  <button class="back-btn" onclick="goBack()">← Back</button>
+  <button class="clear-btn" onclick="clearRecommendations()">Clear</button>
+</div>
+
+ </div>
+</section>
+        <!-- FULL MENU -->
+        <section class="screen centered" id="full-menu-screen">
+            <div class="card scroll full-menu-card">
+                <div class="card-header">
+                    <h1>Full Menu</h1>
+                    <button class="pill-btn cart-inline" onclick="openCart()">
+                        <img src="assets/images/Cart.png" alt="Cart" class="cart-icon">
+                        <span class="cart-badge" id="cart-badge">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-nav">
+                    <button class="pill-btn menu-tab" data-tab="fruit" onclick="goToMenuSlide('fruit')">Fruit
+                        Teas</button>
+                    <button class="pill-btn menu-tab" data-tab="milk" onclick="goToMenuSlide('milk')">Milk Teas</button>
+                    <button class="pill-btn menu-tab" data-tab="waffle" onclick="goToMenuSlide('waffle')">Bubble
+                        Waffles</button>
+                    <button class="pill-btn menu-tab" data-tab="hot" onclick="goToMenuSlide('hot')">Hot
+                        Beverages</button>
+                </div>
+                <p class="micro-hint menu-hint">Swipe categories →</p>
+
+                <div class="menu-slider-wrap">
+                    <button class="menu-arrow left" onclick="menuPrev()" aria-label="Previous category">←</button>
+                    <button class="menu-arrow right" onclick="menuNext()" aria-label="Next category">→</button>
+                        <div class="menu-slider" id="menu-slider">
+                        <div class="menu-slide" data-tab="fruit">
+                          <div class="menu-slide-inner">
+                            <h3 class="section-title">Fruit Teas</h3>
+                            <div class="menu-grid">
+                                <div class="menu-card" onclick="openItem('Mango Fruit Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Mango Fruit Tea">
+                                    <h3>Mango</h3>
+                                    <p>Green tea · Non-milky</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Strawberry Fruit Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Strawberry Fruit Tea">
+                                    <h3>Strawberry</h3>
+                                    <p>Green tea · Non-milky</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Peach Fruit Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Peach Fruit Tea">
+                                    <h3>Peach</h3>
+                                    <p>Green tea · Non-milky</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Lychee Fruit Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Lychee Fruit Tea">
+                                    <h3>Lychee</h3>
+                                    <p>Green tea · Non-milky</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Lemon Fruit Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Lemon Fruit Tea">
+                                    <h3>Lemon</h3>
+                                    <p>Green tea · Non-milky</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Raspberry Fruit Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Raspberry Fruit Tea">
+                                    <h3>Raspberry</h3>
+                                    <p>Syrup-based · Non-milky</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Yuzu Fruit Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Yuzu Fruit Tea">
+                                    <h3>Yuzu</h3>
+                                    <p>Syrup-based · Non-milky</p>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="menu-slide" data-tab="milk">
+                          <div class="menu-slide-inner">
+                            <h3 class="section-title">Milk Teas</h3>
+                            <div class="menu-grid">
+                                <div class="menu-card" onclick="openItem('Classic Milk Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Classic Milk Tea">
+                                    <h3>Classic Milk Tea</h3>
+                                    <p>Black tea base</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Brown Sugar Milk Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Brown Sugar Milk Tea">
+                                    <h3>Brown Sugar Milk Tea</h3>
+                                    <p>Black tea base</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Strawberry Milk Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Strawberry Milk Tea">
+                                    <h3>Strawberry Milk Tea</h3>
+                                    <p>Black tea base</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Matcha Milk Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Matcha Milk Tea">
+                                    <h3>Matcha Milk Tea</h3>
+                                    <p>Green tea base</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Cheese Foam Milk Tea','boba')">
+                                    <img src="assets/placeholder.png" alt="Cheese Foam Milk Tea">
+                                    <h3>Cheese Foam Milk Tea</h3>
+                                    <p>Classic or Matcha only</p>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="menu-slide" data-tab="waffle">
+                          <div class="menu-slide-inner">
+                            <h3 class="section-title">Bubble Waffles</h3>
+                            <div class="menu-grid">
+                                <div class="menu-card" onclick="openItem('Classic Bubble Waffle','simple')">
+                                    <img src="assets/placeholder.png" alt="Classic Bubble Waffle">
+                                    <h3>Classic Bubble Waffle</h3>
+                                    <p>Vanilla batter</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Chocolate Bubble Waffle','simple')">
+                                    <img src="assets/placeholder.png" alt="Chocolate Bubble Waffle">
+                                    <h3>Chocolate Bubble Waffle</h3>
+                                    <p>Chocolate batter</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Matcha Bubble Waffle','simple')">
+                                    <img src="assets/placeholder.png" alt="Matcha Bubble Waffle">
+                                    <h3>Matcha Bubble Waffle</h3>
+                                    <p>Matcha batter</p>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="menu-slide" data-tab="hot">
+                          <div class="menu-slide-inner">
+                            <h3 class="section-title">☕ Hot Beverages</h3>
+                            <div class="menu-grid">
+                                <div class="menu-card" onclick="openItem('Irani Chai','hot')">
+                                    <img src="assets/placeholder.png" alt="Irani Chai">
+                                    <h3>Irani Chai</h3>
+                                    <p>Hot</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Ginger Chai','hot')">
+                                    <img src="assets/placeholder.png" alt="Ginger Chai">
+                                    <h3>Ginger Chai</h3>
+                                    <p>Hot</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Hot Coffee','hot')">
+                                    <img src="assets/placeholder.png" alt="Hot Coffee">
+                                    <h3>Hot Coffee</h3>
+                                    <p>Hot</p>
+                                </div>
+                                <div class="menu-card" onclick="openItem('Cold Coffee','hot')">
+                                    <img src="assets/placeholder.png" alt="Cold Coffee">
+                                    <h3>Cold Coffee</h3>
+                                    <p>Cold</p>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="menu-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+
+                <div class="bottom-actions">
+                    <button class="back-btn" onclick="goBack()">← Back</button>
+                    <button class="clear-btn" onclick="resetOrder()">Clear</button>
+                </div>
+            </div>
+        </section>
+         <!-- ITEM DETAIL SHEET -->
+    <div id="item-modal" class="item-modal hidden" onclick="handleModalBackdrop(event)">
+        <div class="item-sheet">
+    <button class="close-x" onclick="closeItem()">×</button>
+    <div class="item-image-wrap">
+      <img id="modal-image" class="item-image" src="assets/placeholder.png" alt="Selected item">
+    </div>
+            <p class="pill-tag" id="modal-type"></p>
+            <h2 id="modal-title"></h2>
+            <p class="note" id="modal-note">Customize your drink, then add to cart.</p>
+
+            <div id="boba-options">
+                <h4 class="option-title">Tea choice</h4>
+                <div class="option-row" id="tea-options">
+                    <button class="option-pill" onclick="selectTea('Assam',0)">Assam</button>
+                    <button class="option-pill" onclick="selectTea('Jasmine',5)">Jasmine +5</button>
+                    <button class="option-pill" onclick="selectTea('Oolong',10)">Oolong +10</button>
+                    <button class="option-pill" onclick="selectTea('Matcha',15)">Matcha +15</button>
+                </div>
+
+                <h4 class="option-title">Sweetness</h4>
+                <div class="option-row" id="sweet-options">
+                    <button class="option-pill" onclick="selectSweetness('25%')">25%</button>
+                    <button class="option-pill" onclick="selectSweetness('50%')">50%</button>
+                    <button class="option-pill" onclick="selectSweetness('75%')">75%</button>
+                    <button class="option-pill" onclick="selectSweetness('100%')">100%</button>
+                </div>
+
+                <h4 class="option-title">Ice level</h4>
+                <div class="option-row" id="ice-options">
+                    <button class="option-pill" onclick="selectIce('25%')">25%</button>
+                    <button class="option-pill" onclick="selectIce('50%')">50%</button>
+                    <button class="option-pill" onclick="selectIce('75%')">75%</button>
+                    <button class="option-pill" onclick="selectIce('100%')">100%</button>
+                </div>
+
+                <h4 class="option-title">Toppings</h4>
+                <div class="option-row" id="topping-options">
+                    <button class="option-pill" onclick="toggleTopping('Pearl boba',5)">Pearl boba +₹5</button>
+                    <button class="option-pill" onclick="toggleTopping('Tapioca',5)">Tapioca +₹5</button>
+                    <button class="option-pill" onclick="toggleTopping('Mango popping',10)">Mango popping +₹10</button>
+                    <button class="option-pill" onclick="toggleTopping('Strawberry popping',10)">Strawberry popping
+                        +₹10</button>
+                    <button class="option-pill" onclick="toggleTopping('Oreo crumbs',10)">Oreo crumbs +₹10</button>
+                    <button class="option-pill" onclick="toggleTopping('Aloe jelly',5)">Aloe jelly +₹5</button>
+                    <button class="option-pill" onclick="toggleTopping('Lychee jelly',5)">Lychee jelly +₹5</button>
+                    <button class="option-pill" onclick="toggleTopping('Coconut jelly',5)">Coconut jelly +₹5</button>
+                </div>
+                <button class="topping-toggle-btn" onclick="toggleToppingsVisibility()">View all toppings</button>
+            </div>
+
+    <div class="item-actions">
+      <div class="modal-footer">
+        <div class="footer-primary">
+          <div class="price-group">
+            <p class="price-line">Total price: ₹<span id="modal-price">0</span></p>
+            <p class="tax-note">Inclusive of all taxes</p>
+          </div>
+          <button class="primary-btn add-cart-btn" onclick="addToCart()">Add to cart</button>
+        </div>
+        <div class="footer-secondary" id="modal-upsell">
+          <span class="modal-upsell-text">Most people pair this with a bubble waffle (+₹99)</span>
+          <button class="modal-upsell-action" onclick="addWaffleUpsell()">+ Add</button>
+        </div>
+        <button class="back-inline" onclick="closeItem()">← Back</button>
+      </div>
+    </div>
+        </div>
+    </div>
+
+    <!-- CART SCREEN -->
+    <section class="screen centered" id="cart-screen">
+        <div class="card scroll cart-shell">
+            <div class="cart-header">
+                <h1>Your Cart</h1>
+                <div class="cart-total">₹<span id="cart-total">0</span></div>
+            </div>
+            <div class="cart-body">
+                <div id="cart-list" class="cart-list"></div>
+                <div class="cart-summary">
+                    <div class="summary-title">Summary</div>
+                    <div class="summary-row"><span>Items</span><span id="cart-count">0</span></div>
+                    <div class="summary-row total-row"><span>Total</span><span id="cart-total-summary">₹0</span></div>
+                    <button class="primary-btn checkout-btn" onclick="goToPayment()">Checkout</button>
+                </div>
+                <p class="helper-text prep-note">Takes ~30 seconds to order · Ready in 3–5 minutes</p>
+            </div>
+            <div class="bottom-actions">
+                <button class="back-btn" onclick="goBack()">← Back</button>
+                <button class="clear-btn" onclick="resetCart()">Clear Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAYMENT SCREEN -->
+    <section class="screen centered" id="payment-screen">
+      <div class="card scroll payment-card">
+        <h1>Choose your payment option</h1>
+        <div class="payment-grid">
+          <button class="payment-card-btn" data-method="card" onclick="selectPayment('card')">
+                    <span class="payment-icon"><img src="assets/images/Card.png" alt="Card payment" class="payment-icon-img"></span>
+                    <span class="payment-text">Credit / Debit Cards</span>
+                </button>
+                <button class="payment-card-btn" data-method="tap" onclick="selectPayment('tap')">
+                    <span class="payment-icon"><img src="assets/images/Tap to Pay.png" alt="Tap to Pay" class="payment-icon-img"></span>
+                    <span class="payment-text">Tap to Pay</span>
+                </button>
+                <button class="payment-card-btn" data-method="upi" onclick="selectPayment('upi')">
+                    <span class="payment-icon"><img src="assets/images/UPI.png" alt="UPI" class="payment-icon-img"></span>
+                    <span class="payment-text">UPI / Instant Bank Pay</span>
+                </button>
+          <button class="payment-card-btn" data-method="cash" onclick="selectPayment('cash')">
+            <span class="payment-icon"><img src="assets/images/Cash.png" alt="Cash" class="payment-icon-img"></span>
+            <span class="payment-text">Pay with Cash</span>
+          </button>
+        </div>
+        <div class="payment-confirm hidden" id="payment-confirm">
+          <p class="confirm-title">Order confirmed</p>
+          <p class="confirm-number" id="confirm-number"></p>
+          <p class="confirm-note" id="confirm-note">Please wait near the counter</p>
+          <p class="confirm-cash hidden" id="confirm-cash">Pay at the counter</p>
+          <p class="confirm-status" id="confirm-status"></p>
+        </div>
+        <div class="bottom-actions">
+          <button class="back-btn" onclick="goBack()">← Back</button>
+          <button class="clear-btn" onclick="goBack()">Done</button>
+        </div>
+      </div>
+    </section>
+
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
